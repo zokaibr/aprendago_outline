@@ -2,6 +2,8 @@ package menu
 
 import (
 	"fmt"
+	"log"
+	"strconv"
 
 	"github.com/fabianoflorentino/aprendago/internal/agrupamento_de_dados"
 	"github.com/fabianoflorentino/aprendago/internal/aplicacoes"
@@ -21,60 +23,134 @@ import (
 	"github.com/fabianoflorentino/aprendago/internal/ponteiros"
 	"github.com/fabianoflorentino/aprendago/internal/seu_ambiente_de_desenvolvimento"
 	"github.com/fabianoflorentino/aprendago/internal/structs"
-	"github.com/fabianoflorentino/aprendago/internal/variaveis_valores_tipos"
-	"github.com/fabianoflorentino/aprendago/internal/visao_geral_do_curso"
 	"github.com/fabianoflorentino/aprendago/pkg/format"
+	"github.com/fabianoflorentino/aprendago/pkg/reader"
 )
 
+const MAX_CHAPTER = 20
+
 func MenuCapituloOptions([]string) []format.MenuOptions {
-	return []format.MenuOptions{
-		{Options: "--cap=1 --topics", ExecFunc: func() { visao_geral_do_curso.HelpMeVisaoGeralDoCurso() }},
-		{Options: "--cap=2 --topics", ExecFunc: func() { variaveis_valores_tipos.HelpMeVariaveisValoresTipos() }},
-		{Options: "--cap=3 --topics", ExecFunc: func() { exercicios_ninja_nivel_1.HelpMeExerciciosNinjaNivel1() }},
-		{Options: "--cap=4 --topics", ExecFunc: func() { fundamentos_da_programacao.HelpMeFundamentosDaProgramacao() }},
-		{Options: "--cap=5 --topics", ExecFunc: func() { exercicios_ninja_nivel_2.HelpMeExerciciosNinjaNivel2() }},
-		{Options: "--cap=6 --topics", ExecFunc: func() { fluxo_de_controle.HelpMeFluxoDeControle() }},
-		{Options: "--cap=7 --topics", ExecFunc: func() { exercicios_ninja_nivel_3.HelpMeExerciciosNinjaNivel3() }},
-		{Options: "--cap=8 --topics", ExecFunc: func() { agrupamento_de_dados.HelpMeAgrupamentoDeDados() }},
-		{Options: "--cap=9 --topics", ExecFunc: func() { exercicios_ninja_nivel_4.HelpMeExerciciosNinjaNivel4() }},
-		{Options: "--cap=10 --topics", ExecFunc: func() { structs.HelpMeStructs() }},
-		{Options: "--cap=11 --topics", ExecFunc: func() { exercicios_ninja_nivel_5.HelpMeExerciciosNinjaNivel5() }},
-		{Options: "--cap=12 --topics", ExecFunc: func() { funcoes.HelpMeFuncoes() }},
-		{Options: "--cap=13 --topics", ExecFunc: func() { exercicios_ninja_nivel_6.HelMeExerciciosNinjaNivel6() }},
-		{Options: "--cap=14 --topics", ExecFunc: func() { ponteiros.HelpMePonteiros() }},
-		{Options: "--cap=15 --topics", ExecFunc: func() { exercicios_ninja_nivel_7.HelpMeExerciciosNinjaNivel7() }},
-		{Options: "--cap=16 --topics", ExecFunc: func() { aplicacoes.HelpMeAplicacoes() }},
-		{Options: "--cap=17 --topics", ExecFunc: func() { exercicios_ninja_nivel_8.HelpMeExerciciosNinjaNivel8() }},
-		{Options: "--cap=18 --topics", ExecFunc: func() { concorrencia.HelpMeConcorrencia() }},
-		{Options: "--cap=19 --topics", ExecFunc: func() { seu_ambiente_de_desenvolvimento.HelpMeSeuAmbienteDeDesenvolvimento() }},
-		{Options: "--cap=20 --topics", ExecFunc: func() { exercicios_ninja_nivel_9.HelpMeExerciciosNinjaNivel9() }},
+	menuOptions := []format.MenuOptions{}
+
+	for chapterNumber := 1; chapterNumber <= MAX_CHAPTER; chapterNumber++ {
+		menuOption := format.MenuOptions{
+			Options:  "--cap=" + strconv.Itoa(chapterNumber) + " --topics",
+			ExecFunc: menuOptionFuncToExecute(chapterNumber),
+		}
+
+		menuOptions = append(menuOptions, menuOption)
 	}
+
+	return menuOptions
 }
 
 func HelpMeCapituloOptions() {
-	hlp := []format.HelpMe{
-		{Flag: "--cap=1 --topics", Description: "Visão Geral do Curso", Width: 0},
-		{Flag: "--cap=2 --topics", Description: "Variáveis, Valores e Tipos", Width: 0},
-		{Flag: "--cap=3 --topics", Description: "Exercícios Ninja: Nível 1", Width: 0},
-		{Flag: "--cap=4 --topics", Description: "Fundamentos da Programação", Width: 0},
-		{Flag: "--cap=5 --topics", Description: "Exercícios Ninja: Nível 2", Width: 0},
-		{Flag: "--cap=6 --topics", Description: "Fluxo de Controle", Width: 0},
-		{Flag: "--cap=7 --topics", Description: "Exercícios Ninja: Nível 3", Width: 0},
-		{Flag: "--cap=8 --topics", Description: "Agrupamento de Dados", Width: 0},
-		{Flag: "--cap=9 --topics", Description: "Exercícios Ninja: Nível 4", Width: 0},
-		{Flag: "--cap=10 --topics", Description: "Structs", Width: 0},
-		{Flag: "--cap=11 --topics", Description: "Exercícios Ninja: Nível 5", Width: 0},
-		{Flag: "--cap=12 --topics", Description: "Funções", Width: 0},
-		{Flag: "--cap=13 --topics", Description: "Exercícios Ninja: Nível 6", Width: 0},
-		{Flag: "--cap=14 --topics", Description: "Ponteiros", Width: 0},
-		{Flag: "--cap=15 --topics", Description: "Exercícios Ninja: Nível 7", Width: 0},
-		{Flag: "--cap=16 --topics", Description: "Aplicações", Width: 0},
-		{Flag: "--cap=17 --topics", Description: "Exercícios Ninja: Nível 8", Width: 0},
-		{Flag: "--cap=18 --topics", Description: "Concorrência", Width: 0},
-		{Flag: "--cap=19 --topics", Description: "Seu Ambiente de Desenvolvimento", Width: 0},
-		{Flag: "--cap=20 --topics", Description: "Exercícios Ninja: Nível 9", Width: 0},
+	helpMes := []format.HelpMe{}
+
+	for chapterNumber := 1; chapterNumber <= MAX_CHAPTER; chapterNumber++ {
+		helpMe := format.HelpMe{
+			Flag:        "--cap=" + string(chapterNumber) + " --topics",
+			Description: helpMeChapterDescription(chapterNumber),
+			Width:       0,
+		}
+
+		helpMes = append(helpMes, helpMe)
 	}
 
 	fmt.Println("Capítulos do Curso")
-	format.PrintHelpMe(hlp)
+	format.PrintHelpMe(helpMes)
+}
+
+// Função migratória, para cada capítulo que for criado no internal/outlines, o case pode ser removido
+// quando não restar mais nenhum case, o conteúdo da clásula default pode ser movido para a função MenuCapituloOptions
+func menuOptionFuncToExecute(chapterNumber int) func() {
+	switch chapterNumber {
+	case 3:
+		return func() { exercicios_ninja_nivel_1.HelpMeExerciciosNinjaNivel1() }
+	case 4:
+		return func() { fundamentos_da_programacao.HelpMeFundamentosDaProgramacao() }
+	case 5:
+		return func() { exercicios_ninja_nivel_2.HelpMeExerciciosNinjaNivel2() }
+	case 6:
+		return func() { fluxo_de_controle.HelpMeFluxoDeControle() }
+	case 7:
+		return func() { exercicios_ninja_nivel_3.HelpMeExerciciosNinjaNivel3() }
+	case 8:
+		return func() { agrupamento_de_dados.HelpMeAgrupamentoDeDados() }
+	case 9:
+		return func() { exercicios_ninja_nivel_4.HelpMeExerciciosNinjaNivel4() }
+	case 10:
+		return func() { structs.HelpMeStructs() }
+	case 11:
+		return func() { exercicios_ninja_nivel_5.HelpMeExerciciosNinjaNivel5() }
+	case 12:
+		return func() { funcoes.HelpMeFuncoes() }
+	case 13:
+		return func() { exercicios_ninja_nivel_6.HelMeExerciciosNinjaNivel6() }
+	case 14:
+		return func() { ponteiros.HelpMePonteiros() }
+	case 15:
+		return func() { exercicios_ninja_nivel_7.HelpMeExerciciosNinjaNivel7() }
+	case 16:
+		return func() { aplicacoes.HelpMeAplicacoes() }
+	case 17:
+		return func() { exercicios_ninja_nivel_8.HelpMeExerciciosNinjaNivel8() }
+	case 18:
+		return func() { concorrencia.HelpMeConcorrencia() }
+	case 19:
+		return func() { seu_ambiente_de_desenvolvimento.HelpMeSeuAmbienteDeDesenvolvimento() }
+	case 20:
+		return func() { exercicios_ninja_nivel_9.HelpMeExerciciosNinjaNivel9() }
+	default:
+		return func() { format.PrintChapterHelpMe(chapterNumber) }
+	}
+}
+
+// Função migratória, para cada capítulo que for criado no internal/outlines, o case pode ser removido
+// quando não restar mais nenhum case, o conteúdo da clásula default pode ser movido para a função HelpMeCapituloOptions
+func helpMeChapterDescription(chapterNumber int) string {
+	switch chapterNumber {
+	case 3:
+		return "Exercícios Ninja: Nível 1"
+	case 4:
+		return "Fundamentos da Programação"
+	case 5:
+		return "Exercícios Ninja: Nível 2"
+	case 6:
+		return "Fluxo de Controle"
+	case 7:
+		return "Exercícios Ninja: Nível 3"
+	case 8:
+		return "Agrupamento de Dados"
+	case 9:
+		return "Exercícios Ninja: Nível 4"
+	case 10:
+		return "Structs"
+	case 11:
+		return "Exercícios Ninja: Nível 5"
+	case 12:
+		return "Funções"
+	case 13:
+		return "Exercícios Ninja: Nível 6"
+	case 14:
+		return "Ponteiros"
+	case 15:
+		return "Exercícios Ninja: Nível 7"
+	case 16:
+		return "Aplicações"
+	case 17:
+		return "Exercícios Ninja: Nível 8"
+	case 18:
+		return "Concorrência"
+	case 19:
+		return "Seu Ambiente de Desenvolvimento"
+	case 20:
+		return "Exercícios Ninja: Nível 9"
+	default:
+		chapter, error := reader.ReadChapterFile(chapterNumber)
+		if error != nil {
+			log.Panicf("Erro ai tentar ler arquivo do Capítulo %d", chapterNumber)
+		}
+		return chapter.Title
+	}
 }
