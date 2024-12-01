@@ -17,19 +17,19 @@ func ExerciciosNinjaNivel7() {
 
 func MenuExercicioNinjaNivel7([]string) []format.MenuOptions {
 	return []format.MenuOptions{
-		{Options: "--na-pratica-exercicio-1 --nivel-7", ExecFunc: func() { executeSections("Na prática: exercício #1") }},
-		{Options: "--na-pratica-exercicio-1 --nivel-7 --resolucao", ExecFunc: func() { ResolucaoNaPraticaExercicio1() }},
-		{Options: "--na-pratica-exercicio-2 --nivel-7", ExecFunc: func() { executeSections("Na prática: exercício #2") }},
-		{Options: "--na-pratica-exercicio-2 --nivel-7 --resolucao", ExecFunc: func() { ResolucaoNaPraticaExercicio2() }},
+		{Options: "--exercicio=1 --nivel=7", ExecFunc: func() { executeSections("Na prática: exercício #1") }},
+		{Options: "--exercicio=1 --nivel=7 --resolucao", ExecFunc: func() { ResolucaoNaPraticaExercicio1() }},
+		{Options: "--exercicio=2 --nivel=7", ExecFunc: func() { executeSections("Na prática: exercício #2") }},
+		{Options: "--exercicio=2 --nivel=7 --resolucao", ExecFunc: func() { ResolucaoNaPraticaExercicio2() }},
 	}
 }
 
 func HelpMeExerciciosNinjaNivel7() {
 	hlp := []format.HelpMe{
-		{Flag: "--na-pratica-exercicio-1 --nivel-7", Description: "Apresenta o primeiro exercício prático do Nível 7.", Width: 0},
-		{Flag: "--na-pratica-exercicio-1 --nivel-7 --resolucao", Description: "Apresenta a resolução do primeiro exercício prático do Nível 7.", Width: 0},
-		{Flag: "--na-pratica-exercicio-2 --nivel-7", Description: "Apresenta o segundo exercício prático do Nível 7.", Width: 0},
-		{Flag: "--na-pratica-exercicio-2 --nivel-7 --resolucao", Description: "Apresenta a resolução do segundo exercício prático do Nível 7.", Width: 0},
+		{Flag: "--exercicio=1 --nivel=7", Description: "Apresenta o primeiro exercício prático do Nível 7.", Width: 0},
+		{Flag: "--exercicio=1 --nivel=7 --resolucao", Description: "Apresenta a resolução do primeiro exercício prático do Nível 7.", Width: 0},
+		{Flag: "--exercicio=2 --nivel=7", Description: "Apresenta o segundo exercício prático do Nível 7.", Width: 0},
+		{Flag: "--exercicio=2 --nivel=7 --resolucao", Description: "Apresenta a resolução do segundo exercício prático do Nível 7.", Width: 0},
 	}
 
 	fmt.Println("\nCapítulo 15: Exercícios Ninja - Nível 7")
