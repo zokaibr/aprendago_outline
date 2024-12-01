@@ -8,7 +8,6 @@ import (
 	"github.com/fabianoflorentino/aprendago/internal/agrupamento_de_dados"
 	"github.com/fabianoflorentino/aprendago/internal/aplicacoes"
 	"github.com/fabianoflorentino/aprendago/internal/concorrencia"
-	"github.com/fabianoflorentino/aprendago/internal/exercicios_ninja_nivel_1"
 	"github.com/fabianoflorentino/aprendago/internal/exercicios_ninja_nivel_2"
 	"github.com/fabianoflorentino/aprendago/internal/exercicios_ninja_nivel_3"
 	"github.com/fabianoflorentino/aprendago/internal/exercicios_ninja_nivel_4"
@@ -65,8 +64,6 @@ func HelpMeCapituloOptions() {
 // quando não restar mais nenhum case, o conteúdo da clásula default pode ser movido para a função MenuCapituloOptions
 func menuOptionFuncToExecute(chapterNumber int) func() {
 	switch chapterNumber {
-	case 3:
-		return func() { exercicios_ninja_nivel_1.HelpMeExerciciosNinjaNivel1() }
 	case 4:
 		return func() { fundamentos_da_programacao.HelpMeFundamentosDaProgramacao() }
 	case 5:
@@ -110,8 +107,6 @@ func menuOptionFuncToExecute(chapterNumber int) func() {
 // quando não restar mais nenhum case, o conteúdo da clásula default pode ser movido para a função HelpMeCapituloOptions
 func helpMeChapterDescription(chapterNumber int) string {
 	switch chapterNumber {
-	case 3:
-		return "Exercícios Ninja: Nível 1"
 	case 4:
 		return "Fundamentos da Programação"
 	case 5:
