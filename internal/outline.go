@@ -23,7 +23,7 @@ import (
 	"github.com/fabianoflorentino/aprendago/internal/visao_geral_do_curso"
 )
 
-func Outline() {
+func PrintOutline() {
 	visao_geral_do_curso.VisaoGeralDoCurso()
 	variaveis_valores_tipos.VariaveisValoresETipos()
 	exercicios_ninja_nivel_1.ExerciciosNinjaNivel1()

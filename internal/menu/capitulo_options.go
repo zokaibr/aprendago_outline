@@ -3,7 +3,6 @@ package menu
 import (
 	"fmt"
 	"log"
-	"strconv"
 
 	"github.com/fabianoflorentino/aprendago/internal/agrupamento_de_dados"
 	"github.com/fabianoflorentino/aprendago/internal/aplicacoes"
@@ -32,8 +31,9 @@ func MenuCapituloOptions([]string) []format.MenuOptions {
 	menuOptions := []format.MenuOptions{}
 
 	for chapterNumber := 1; chapterNumber <= MAX_CHAPTER; chapterNumber++ {
+
 		menuOption := format.MenuOptions{
-			Options:  "--cap=" + strconv.Itoa(chapterNumber) + " --topics",
+			Options:  fmt.Sprintf("--cap=%d --topics", chapterNumber),
 			ExecFunc: menuOptionFuncToExecute(chapterNumber),
 		}
 
@@ -48,7 +48,7 @@ func HelpMeCapituloOptions() {
 
 	for chapterNumber := 1; chapterNumber <= MAX_CHAPTER; chapterNumber++ {
 		helpMe := format.HelpMe{
-			Flag:        "--cap=" + string(chapterNumber) + " --topics",
+			Flag:        fmt.Sprintf("--cap=%d --topics", chapterNumber),
 			Description: helpMeChapterDescription(chapterNumber),
 			Width:       0,
 		}
@@ -142,9 +142,9 @@ func helpMeChapterDescription(chapterNumber int) string {
 	case 20:
 		return "Exercícios Ninja: Nível 9"
 	default:
-		chapter, error := reader.ReadChapterFile(chapterNumber)
-		if error != nil {
-			log.Panicf("Erro ai tentar ler arquivo do Capítulo %d", chapterNumber)
+		chapter, err := reader.ReadChapterFile(chapterNumber)
+		if err != nil {
+			log.Panicf("Erro ao tentar ler arquivo do Capítulo %d: %s", chapterNumber, err)
 		}
 		return chapter.Title
 	}
